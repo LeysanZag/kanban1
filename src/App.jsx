@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { format } from "date-fns";
-import { PopExit } from './components/Popups/PopExit/PopExit.jsx';
-import { PopBrowse } from './components/Popups/PopBrowse/PopBrowse.jsx';
-import { PopNewCard } from './components/Popups/PopNewCard/PopNewCard.jsx';
+import {format} from "date-fns";
+import {PopExit} from './components/Popups/PopExit/PopExit.jsx';
+import {PopBrowse} from './components/Popups/PopBrowse/PopBrowse.jsx';
+import {PopNewCard} from './components/Popups/PopNewCard/PopNewCard.jsx';
 import {Header} from './components/Header/Header.jsx';
 import {Main} from './components/Main/Main';
-import {cardList} from './data.js';
-import {lightTheme, darkTheme} from './themes.js';
-import { GlobalStyled, Wrapper } from './global.styled.js';
-import { ThemeProvider } from 'styled-components';
+//import {cardList} from './data.js';
+// import {lightTheme, darkTheme} from './themes.js';
+// import { GlobalStyled, Wrapper } from './global.styled.js';
+// import { ThemeProvider } from 'styled-components';
 
 
 function App() {
