@@ -88,3 +88,12 @@ export const cardList = [
       date: "30.10.23",
     },
   ];
+//   <div className="main__content">
+//   {statusList.map((status) => (
+//     <Column
+//       key={status}
+//       title={status}
+//       cardList={cards.filter((card) => card.status === status)}
+//     />
+//   ))}
+// </div>

@@ -27,6 +27,24 @@ return(
      </>
 );
 }
+
+// function App() {
+//   const [cards, setCards] = useState(cardList);
+
+//   function onCardAdd() {
+//     // Логика добавления карточки
+//   }
+
+//   return (
+//     <Wrapper>
+//       <Header onCardAdd={onCardAdd} />
+//       <Main cards={cards} />
+//     </Wrapper>
+//   );
+// }
+
+
+
   // const [cards, setCards] = useState(cardList);
   // const [isLoading, setIsLoading] = useState(true);
 
