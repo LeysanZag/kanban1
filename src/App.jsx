@@ -1,58 +1,44 @@
-import { useEffect, useState } from 'react'
-//import reactLogo from './assets/react.svg'
-//import viteLogo from '/vite.svg'
-import './App.css'
-import { format } from "date-fns";
-//import WelcomeMessage from './components/WelcomeMessage';
-import { PopExit } from './components/Popups/PopExit/PopExit.jsx';
-import { PopBrowse } from './components/Popups/PopBrowse/PopBrowse.jsx';
-import { PopNewCard } from './components/Popups/PopNewCard/PopNewCard.jsx';
-import {Header} from './components/Header/Header.jsx';
-import {Main} from './components/Main/Main';
-import {cardList} from './data.js';
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { appRoutes } from "./lib/appRoutes";
+import { useState } from "react";
+import "./App.css";
+import MainPage from "./Pages/MainPage";
+import TaskPage from "./Pages/TaskPage";
+import ExitPage from "./Pages/ExitPage";
+import Signin from "./Pages/SignInPage";
+import NotFound from "./Pages/NotFoundPage";
+import Register from "./Pages/SignUpPage";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute"
 
-function App() {
-
-  const [cards, setCards] = useState(cardList);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
-  function addCard(e) {
-    e.preventDefault()
-    const newCard = {
-      id: cards[cards.length-1].id + 1,
-      status: "Без статуса",
-      theme: "Web design",
-      ThemeColor: "_orange",
-      title: "Название задачи",
-      date: `${format(new Date(), "dd.MM.yy")}`,
-    }
-    setCards([...cards, newCard])
-    console.log(newCard)
+export default function App() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  function loginUser(newUser) {
+    setUser(newUser);
+    navigate(appRoutes.MAIN);
+  }
+  function logout() {
+    setUser(null);
+    navigate(appRoutes.SIGNIN);
   }
   return (
-    <>
+    <Routes>
+      <Route element={<PrivateRoute user={user} />}>
+        <Route path={appRoutes.MAIN} element={<MainPage user={user} />}>
+          <Route path={appRoutes.TASK} element={<TaskPage />} />
+          <Route path={appRoutes.EXIT} element={<ExitPage logout={logout} />} />
+        </Route>
+      </Route>
 
-      <div className='wrapper'>
-      <PopExit />
-        <PopNewCard />
-        <PopBrowse />
-        {/* pop-up end*/}
-
-        <Header addCard={addCard} />
-        {isLoading ? ("Загрузка...") : (
-          <Main cards={cards}/>
-        )}
-        
-     
-      </div>
-      </>     
-  )
+      <Route
+        path={appRoutes.SIGNIN}
+        element={<Signin loginUser={loginUser} />}
+      />
+      <Route
+        path={appRoutes.SIGNUP}
+        element={<Register loginUser={loginUser} />}
+      />
+      <Route path={appRoutes.NOT_FOUND} element={<NotFound />} />
+    </Routes>
+  );
 }
-
-export default App
