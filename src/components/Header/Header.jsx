@@ -1,40 +1,63 @@
-export const Header = () => {
-    return (
-        <header className="header">
-            <div className="container">
-            <div className="header__block">
-                <div className="header__logo _show _light">
-                <a href="" target="_self">
-                    <img src="public/logo.png" alt="logo" />
-                </a>
-                </div>
-                <div className="header__logo _dark">
-                <a href="" target="_self">
-                    <img src="public/logo_dark.png" alt="logo" />
-                </a>
-                </div>
-                <nav className="header__nav">
-                <button className="header__btn-main-new _hover01" id="btnMainNew">
-                    <a href="#popNewCard">Создать новую задачу</a>
-                </button>
-                <a href="#user-set-target" className="header__user _hover02">
-                    Ivan Ivanov
-                </a>
-                <div className="header__pop-user-set pop-user-set" id="user-set-target">
-                    {/* <a href="">x</a> */}
-                    <p className="pop-user-set__name">Ivan Ivanov</p>
-                    <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
-                    <div className="pop-user-set__theme">
-                    <p>Темная тема</p>
-                    <input type="checkbox" className="checkbox" name="checkbox" />
-                    </div>
-                    <button type="button" className="_hover03">
-                    <a href="#popExit">Выйти</a>
-                    </button>
-                </div>
-                </nav>
-            </div>
-            </div>
-        </header>
-    )
+import { Link } from "react-router-dom";
+import { Container } from "../../styled/common/Common.styled";
+import * as S from "./Header.styled";
+import { useState } from "react";
+import { appRoutes } from "../../lib/appRoutes";
+
+export default function Header({ onCardAdd }) {
+  const [isOpened, setIsOpened] = useState(false);
+  function togglePopup() {
+    setIsOpened((prev) => !prev);
+  }
+
+  return (
+    <S.StyledHeader>
+      <Container>
+        <S.HeaderBlock>
+          <S.HeaderLogo className="_show _light">
+            <a href="" target="_self">
+              <img src="/images/logo.png" alt="logo" />
+            </a>
+          </S.HeaderLogo>
+          <S.HeaderLogo className="_dark">
+            <a href="" target="_self">
+              <img src="images/logo_dark.png" alt="logo" />
+            </a>
+          </S.HeaderLogo>
+          <S.HeaderNav>
+            <S.HeaderBtnMainNew onClick={onCardAdd} id="btnMainNew">
+              <S.HeaderBtnMainNewLink href="#popNewCard">
+                Создать новую задачу
+              </S.HeaderBtnMainNewLink>
+            </S.HeaderBtnMainNew>
+            <S.HeaderUser onClick={togglePopup} href="#user-set-target">
+              Ivan Ivanov
+            </S.HeaderUser>
+            {isOpened && (
+              <S.HeaderPopUserSet id="user-set-target">
+                {/* <a href="">x</a> */}
+                <S.HeaderPopUserSetName>Ivan Ivanov</S.HeaderPopUserSetName>
+                <S.HeaderPopUserSetMail>
+                  ivan.ivanov@gmail.com
+                </S.HeaderPopUserSetMail>
+                <S.HeaderPopUserSetTheme>
+                  <S.HeaderPopUserSetThemeText>
+                    Темная тема
+                  </S.HeaderPopUserSetThemeText>
+                  <S.HeaderPopUserSetThemeInp
+                    // onChange={toggleTheme}
+                    type="checkbox"
+                    name="checkbox"
+                  />
+                </S.HeaderPopUserSetTheme>
+                <Link to={appRoutes.EXIT}>
+                  <S.HeaderPopUserSetBtn>Выйти</S.HeaderPopUserSetBtn>
+                </Link>
+              </S.HeaderPopUserSet>
+            )}
+          </S.HeaderNav>
+        </S.HeaderBlock>
+      </Container>
+    </S.StyledHeader>
+  );
 }

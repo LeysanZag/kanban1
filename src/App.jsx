@@ -1,76 +1,44 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import {format} from "date-fns";
-import {PopExit} from './components/Popups/PopExit/PopExit.jsx';
-import {PopBrowse} from './components/Popups/PopBrowse/PopBrowse.jsx';
-import {PopNewCard} from './components/Popups/PopNewCard/PopNewCard.jsx';
-import {Header} from './components/Header/Header.jsx';
-import {Main} from './components/Main/Main';
-import {cardList} from './data.js';
-//import {lightTheme, darkTheme} from './themes.js';
-//import { GlobalStyled, Wrapper } from './global.styled.js';
-//import { ThemeProvider } from 'styled-components';
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { appRoutes } from "./lib/appRoutes";
+import { useState } from "react";
+import "./App.css";
+import MainPage from "./Pages/MainPage";
+import TaskPage from "./Pages/TaskPage";
+import ExitPage from "./Pages/ExitPage";
+import Signin from "./Pages/SignInPage";
+import NotFound from "./Pages/NotFoundPage";
+import Register from "./Pages/SignUpPage";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute"
 
+export default function App() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  function loginUser(newUser) {
+    setUser(newUser);
+    navigate(appRoutes.MAIN);
+  }
+  function logout() {
+    setUser(null);
+    navigate(appRoutes.SIGNIN);
+  }
+  return (
+    <Routes>
+      <Route element={<PrivateRoute user={user} />}>
+        <Route path={appRoutes.MAIN} element={<MainPage user={user} />}>
+          <Route path={appRoutes.TASK} element={<TaskPage />} />
+          <Route path={appRoutes.EXIT} element={<ExitPage logout={logout} />} />
+        </Route>
+      </Route>
 
-function App() {
-return(
-  <>
-  <div className='wrapper'>
-    {/*pop-up start*/}
-    <PopExit/>
-    <PopNewCard/>
-    <PopBrowse/>
-    {/*pop-up end*/}
-    <Header/>
-    <Main/>
-     </div>
-     </>
-);
+      <Route
+        path={appRoutes.SIGNIN}
+        element={<Signin loginUser={loginUser} />}
+      />
+      <Route
+        path={appRoutes.SIGNUP}
+        element={<Register loginUser={loginUser} />}
+      />
+      <Route path={appRoutes.NOT_FOUND} element={<NotFound />} />
+    </Routes>
+  );
 }
-  // const [cards, setCards] = useState(cardList);
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // const [theme, setTheme] = useState(true);
-
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 1000);
-  // }, []);
-
-  // function addCard(e) {
-  //   e.preventDefault()
-  //   const newCard = {
-  //     id: cards[cards.length-1].id + 1,
-  //     status: "Без статуса",
-  //     theme: "Web design",
-  //     ThemeColor: "_orange",
-  //     title: "Название задачи",
-  //     date: `${format(new Date(), "dd.MM.yy")}`,
-  //   }
-  //   setCards([...cards, newCard])
-  //   console.log(newCard)
-  // }
-  // return (
-  //   <ThemeProvider theme={theme ? lightTheme : darkTheme}>
-  //   <GlobalStyled />
-  //   <Wrapper>
-  //     <PopExit />
-  //       <PopNewCard />
-  //       <PopBrowse />
-  //       {/* pop-up end*/}
-
-  //       <Header addCard={addCard} setTheme={setTheme} theme={theme} />
-  //       {isLoading ? ("Загрузка...") : (
-  //         <Main cards={cards}/>
-  //       )}
-        
-     
-//       </Wrapper>
-//       </ThemeProvider>     
-//   )
-// }
-
-
-export default App

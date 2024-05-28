@@ -1,26 +1,27 @@
+import { Link } from "react-router-dom";
+import { topicHeader } from "../../lib/topic";
+import * as S from "./Card.styled";
 
-export const Card = ({ NameLesson, CardThemeColor, CardTitle }) => {
-    return (
-      <div className="cards__item">
-        <div className="cards__card card">
-          <div className="card__group">
-            <div className={`card__theme ${CardThemeColor}`}>
-              <p className={CardThemeColor}>{NameLesson}</p>
-            </div>
-            <a href="#popBrowse" target="_self">
-              <div className="card__btn">
-                <div />
-                <div />
-                <div />
-              </div>
-            </a>
-          </div>
-          <div className="card__content">
-            <a href="" target="_blank">
-              <h3 className="card__title">{CardTitle}</h3>
-            </a>
-            <div className="card__date">
-              <svg
+export default function Card({ id, topic, title, date }) {
+  return (
+    <Link to={`task/${id}`}>
+      <S.CardsItem>
+        <S.CardsCard>
+          <S.CardGroup>
+            <S.CardTopic $themeColor={topicHeader[topic]}>
+              <S.TopicText>{topic}</S.TopicText>
+            </S.CardTopic>
+
+            <S.CardBtn>
+              <S.CardBtnPoint />
+              <S.CardBtnPoint />
+              <S.CardBtnPoint />
+            </S.CardBtn>
+          </S.CardGroup>
+          <S.CardContent>
+            <S.CardTitle>{title}</S.CardTitle>
+            <S.CardDate>
+              <S.CardDateSvg
                 xmlns="http://www.w3.org/2000/svg"
                 width={13}
                 height={13}
@@ -47,11 +48,12 @@ export const Card = ({ NameLesson, CardThemeColor, CardTitle }) => {
                     <rect width={13} height={13} fill="white" />
                   </clipPath>
                 </defs>
-              </svg>
-              <p>30.10.23</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+              </S.CardDateSvg>
+              <S.CardDateValue>{date}</S.CardDateValue>
+            </S.CardDate>
+          </S.CardContent>
+        </S.CardsCard>
+      </S.CardsItem>
+    </Link>
+  );
+}

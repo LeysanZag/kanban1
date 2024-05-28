@@ -1,11 +1,25 @@
-export const  Column = ({title, cards}) => {
-    // const =cards;
-      return (
-          <div className="main__column column">
-            <div className="column__title">
-              <p>{title}</p>
-            </div>
-            <div className="cards">{cards}</div>
-          </div>
-      )
-  }
+import React from "react";
+import Card from "../Card/Card";
+import { ColumnCards, ColumnTitle, MainColumn } from "./Column.styled";
+
+export default function Column({ title, cards }) {
+  return (
+    <MainColumn>
+      <ColumnTitle>
+        <p>{title}</p>
+      </ColumnTitle>
+      <ColumnCards>
+        {cards.map((card) => (
+          <Card
+            key={card._id}
+            id={card._id}
+            topic={card.topic}
+            title={card.title}
+            date={card.date}
+          />
+        ))}
+      </ColumnCards>
+    </MainColumn>
+  );
+}
+
